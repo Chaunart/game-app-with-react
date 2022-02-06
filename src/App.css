@@ -2,12 +2,21 @@
     box-sizing: border-box;
 }
 
+
 body {
-    background-color: #308546;
+    background-color: #308546;;
     padding: 0;
     margin: 0;
     overflow: hidden;
 }
+
+
+#App {
+    display: grid;
+    place-content: center;
+}
+
+
 
 /*
 .GameCanvas {

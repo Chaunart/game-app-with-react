@@ -1,15 +1,18 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import { Hero } from './components/sprites/Hero.js';
-import { Dungeon } from './components/sprites/Dungeon.js';
+import Canvas from './components/test/Canvas';
+import Player from './components/test/Player';
+//import { Hero } from './components/sprites/Hero.js';
+//import { Dungeon } from './components/sprites/dungeon/Dungeon.js';
 
 
 class App extends Component {
   render (){
     return (
-      <div className='App'>
-        <Dungeon />
-        <Hero />
+      <div id='App'>
+        <React.StrictMode>
+          <Player />
+        </React.StrictMode>
       </div>
     );
   }
@@ -18,4 +21,7 @@ class App extends Component {
 export default App 
 
 
-// 
+/*
+  <Canvas />
+<Dungeon />     
+*/ 
