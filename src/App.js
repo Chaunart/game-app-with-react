@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import Canvas from './components/test/Canvas';
 import Player from './components/test/Player';
 //import { Hero } from './components/sprites/Hero.js';
 //import { Dungeon } from './components/sprites/dungeon/Dungeon.js';

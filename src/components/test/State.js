@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {usePressKey, useReleaseKey, useClick} from './usePressKey';
+import Movement from './Movement';
 
 const states = {
     DOWN_IDLE: 0,
@@ -16,12 +17,15 @@ const states = {
     RIGHT_ATTACK: 11,
 }
 
+const animationStates = {IDLE: 0, WALK: 1, ATTACK:2};
+
 
 
 export const State = () => {
 
-
     const [currentState, setCurrentState] = useState(states.DOWN_IDLE);
+    const [currentAnimationState, setCurrentAnimationState] = useState(animationStates.IDLE);
+    const {walk, positionX, positionY} = Movement();
 
     usePressKey((e) => {
         const dir = e.key.replace('Arrow', 'press').toLowerCase();
@@ -30,6 +34,8 @@ export const State = () => {
         else if (dir ==='pressup') setCurrentState(states.UP_WALK);
         else if (dir ==='pressleft') setCurrentState(states.LEFT_WALK);
         else if (dir ==='pressright') setCurrentState(states.RIGHT_WALK);
+        walk(currentState);
+        setCurrentAnimationState(animationStates.WALK);
         e.preventDefault();
     });
 
@@ -40,6 +46,7 @@ export const State = () => {
         else if (dir ==='releaseup') setCurrentState(states.UP_IDLE);
         else if (dir ==='releaseleft') setCurrentState(states.LEFT_IDLE);
         else if (dir ==='releaseright') setCurrentState(states.RIGHT_IDLE);
+        setCurrentAnimationState(animationStates.IDLE);
         e.preventDefault();
     });
 
@@ -56,10 +63,11 @@ export const State = () => {
         }else if (currentState === states.RIGHT_WALK || currentState === states.RIGHT_IDLE) {
             setCurrentState(states.RIGHT_ATTACK)
         }
+        setCurrentAnimationState(animationStates.ATTACK);
         e.preventDefault();
     });
 
-    return currentState;
+    return {currentState, positionX, positionY, currentAnimationState};
 }
 
 export default State;

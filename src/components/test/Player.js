@@ -2,9 +2,8 @@ import React, { useRef, useState } from 'react';
 import useAnimation from './useAnimation';
 import HeroSprite from './hero.png';
 import State from './State.js';
-import {usePressKey, useReleaseKey, useClick} from './usePressKey';
-//import InputHandler from './usePressKey';
-//import Input from './usePressKey';
+import {usePressKey} from './usePressKey.js'
+
 
 const gamewidth = 640;
 const gameheight = 640;
@@ -13,19 +12,63 @@ const playerImage = new Image();
 playerImage.src = HeroSprite;
 
 const spriteSize = 85;
+const scaleSize = spriteSize*3;
 
-//const positionX = 0;
-//const positionY = 0;
 
 
 export const Player = () => {
+        
+    const {currentState, positionX, positionY, currentAnimationState} = State();
 
-    //const input = new InputHandler();
+   
+    const draw = (ctx, frameCount, currentState, positionX, positionY) => {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+    ctx.drawImage (playerImage, 
+        frameCount, currentState, 
+        spriteSize, spriteSize, 
+        positionX, positionY, 
+        scaleSize, scaleSize)
+    }
+
+    const canvasRef = useRef(null)
+
+    useAnimation(draw, spriteSize, currentState, canvasRef, positionX, positionY, currentAnimationState);
+
+    return  <canvas style = {{ 
+                    border: '1px solid #000000',
+                    backgroundColor: '#000000',
+                    }}
+                    width = {gamewidth} 
+                    height ={gameheight}
+                    ref = {canvasRef} 
+            />
+    
+}
+export default Player;
+
+
+
+
+/*
+const states = [
+    { name: 'down_idle', frames: 1, },
+    { name: 'up_idle', frames: 1, },
+    { name: 'left_idle', frames: 1, },
+    { name: 'rechts_idle', frames: 1,},
+    { name: 'down_walk', frames: 4, },
+    { name: 'up_walk', frames: 4, },
+    { name: 'left_walk', frames: 4, },
+    { name: 'right_walk', frames: 4, },
+    { name: 'down_attack', frames: 4, },
+    { name: 'up_attack', frames: 4, },
+    { name: 'left_attack', frames: 4, },
+    { name: 'right_attack', frames: 4, },
+    ];
+*/
+  //const input = new InputHandler();
     
     //const input = Input();
-    const currentState = State();
-
-//    const [direction, setDirection] = useState(checkDirection(currentState));
+    //const [direction, setDirection] = useState(checkDirection(currentState));
 
 
 
@@ -79,48 +122,4 @@ export const Player = () => {
 
         e.preventDefault();
     });
-*/
-
-    const draw = (ctx, frameCount, currentState, x, y) => {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-    ctx.drawImage (playerImage, 
-        frameCount, currentState, 
-        spriteSize, spriteSize, 
-        x, y, 
-        spriteSize, spriteSize)
-    }
-
-    
-    const canvasRef = useRef(null)
-
-    useAnimation(draw, spriteSize, currentState, canvasRef);
-
-    return  <canvas style = {{ 
-                    border: '1px solid #000000',
-                    backgroundColor: '#000000',}}
-                    width = {gamewidth} 
-                    height ={gameheight}
-                    ref = {canvasRef} />
-    
-}
-export default Player;
-
-// https://www.w3schools.com/graphics/canvas_reference.asp
-
-
-/*
-const states = [
-    { name: 'down_idle', frames: 1, },
-    { name: 'up_idle', frames: 1, },
-    { name: 'left_idle', frames: 1, },
-    { name: 'rechts_idle', frames: 1,},
-    { name: 'down_walk', frames: 4, },
-    { name: 'up_walk', frames: 4, },
-    { name: 'left_walk', frames: 4, },
-    { name: 'right_walk', frames: 4, },
-    { name: 'down_attack', frames: 4, },
-    { name: 'up_attack', frames: 4, },
-    { name: 'left_attack', frames: 4, },
-    { name: 'right_attack', frames: 4, },
-    ];
 */
