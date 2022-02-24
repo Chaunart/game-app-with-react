@@ -1,12 +1,8 @@
 import React from 'react';
-//import Sprite from './Sprite.js';
-import Canvas from './Canvas.js';
+import Sprite from './Sprite.js';
 import HeroSprite from './hero.png';
-import usePressKey from '../hooks/usePressKey.js';
+import {usePressKey, useReleaseKey, useClick} from '../hooks/usePressKey.js';
 import useWalk from '../hooks/useWalk.js';
-
-const playerImage = new Image();
-playerImage.src = HeroSprite;
 
 /*
 const spriteSize = 85;
@@ -37,36 +33,28 @@ const animationStates = [
 const playerstate= 'down_walk';
 */  
 
-export const Hero = () => {
-
-    const { playerstate, walk, position, spriteSize, spriteAnimation} = useWalk();
-
-    usePressKey((e) => {
-    walk(e.key.replace('Arrow', "").toLowerCase());
-    e.preventDefault();
-    })
-
-    return <Canvas 
-                playerImage={playerImage} 
-                spriteSize={spriteSize}
-                playerstate={playerstate}
-                spriteAnimation={spriteAnimation}
-                positionX={position.x}
-                positionY={position.y}
-            />
-}
 
 
-
-/*
 export const Hero = () => {
 
     const { dir, step, walk, position } = useWalk(4);
 
     usePressKey((e) => {
-    walk(e.key.replace('Arrow', "").toLowerCase());
-    e.preventDefault();
+      walk(e.key.replace('Arrow', '').toLowerCase());
+      e.preventDefault();
     })
+
+    useReleaseKey((e) => {
+      const dir = e.key.replace('Arrow', 'release').toLowerCase();
+        console.dir(dir);
+      e.preventDefault();
+      })
+
+    useClick((e) => {
+      const dir = 'click';
+        console.dir(dir);
+      e.preventDefault();
+      })
 
     return <Sprite 
                 image={HeroSprite} 
@@ -75,7 +63,6 @@ export const Hero = () => {
             />
 }
 
-*/
 
 /*import HeroSprite from './enemy.png'
 

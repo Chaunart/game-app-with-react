@@ -1,42 +1,44 @@
 import {useEffect} from 'react';
 
 
-const frames = 4;
-
-
-export default function useAnimation (draw, 
-                                      spriteSize,
-                                      currentState, 
+export default function useAnimation (drawHero, drawDungeon,
                                       canvasRef,
-                                      positionX,
-                                      positionY,
-                                      currentAnimationState
                                       ) {
-    
+
+
     useEffect(() => {
-    
+
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
+        //
 
-        let gameFrame = 0
-        let staggerFrame = 7
-        
-        //draw
-        const render = () => {
-          let spreadPosition = Math.floor(gameFrame/staggerFrame) % frames;
-          let frameCount = spriteSize*spreadPosition;
-          draw(context, frameCount, currentState*spriteSize, 
-              positionX,
-              positionY)
-          
-          gameFrame++;
-          requestAnimationFrame(render);
-          };
-          
-          render();
 
-    }, [canvasRef, draw, spriteSize, currentState, positionX, positionY])
+        let animationFrameId;
+        let gameFrame = 0;
+
+        const animate = () => {
+            context.clearRect(0, 0, window.innerWidth, window.innerHeight)
+            drawDungeon(context);
+            drawHero(context, gameFrame);
+
+            gameFrame++;
+            
+            animationFrameId = window.requestAnimationFrame(animate);
+
+        };
+
+        animate();
+
+        return () => {
+            window.cancelAnimationFrame(animationFrameId)
+          }
+
+    }, [drawHero, canvasRef,])
+
+
 }
+
+
 
 /*
 export default function useAnimation (draw, 

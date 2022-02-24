@@ -5,5 +5,18 @@ export function usePressKey(fn) {
         window.addEventListener('keydown', fn)
         return () => window.removeEventListener('keydown', fn)
     }, [fn]);
+}
 
+export function useReleaseKey(fn) {
+    useEffect(() =>  {
+        window.addEventListener('keyup', fn)
+        return () => window.removeEventListener('keyup', fn)
+    }, [fn]);
+}
+
+export function useClick(fn) {
+    useEffect(() =>  {
+        window.addEventListener('click', fn)
+        return () => window.removeEventListener('click', fn)
+    }, [fn]);
 }

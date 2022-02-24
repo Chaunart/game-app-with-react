@@ -1,8 +1,12 @@
-import React from 'react';
-import Sprite from '../Sprite.js';
-import MapSprite from './Map.png';
+import DungeonSprite from './Map.png';
 import { createPath } from './Path.js';
 import { generateRooms } from './Room.js';
+
+const dungeonImage = new Image();
+dungeonImage.src = DungeonSprite;
+
+const tileSize = 64;
+const scaleSize = tileSize*1;
 
 const GRID_HEIGHT = 13;
 const GRID_WIDTH = 13;
@@ -10,6 +14,11 @@ const MAX_ROOMS = 2;
 const ROOM_SIZE_RANGE = {min:2, max:3};
 const PATH_RANGE = 20;
 let grid = createMap();
+
+const gamewidth = GRID_HEIGHT*tileSize;
+const gameheight = GRID_WIDTH*tileSize;
+
+
 
 export let pathList = createPath( GRID_HEIGHT, GRID_WIDTH, PATH_RANGE, ROOM_SIZE_RANGE.max);
 
@@ -41,13 +50,13 @@ function rewriteMap(grid){
     for (let i = 0; i < GRID_HEIGHT; i++) {
 		for (let j = 0; j < GRID_WIDTH; j++) {
             if (grid[i][j] === 0){
-                let data = {step:1, dir:2, h: 64, w: 64};
+                let data = {column:1, row:2};
                 grid[i][j] = data;
             } else if (grid[i][j] === 1){
-                let data = {step:1, dir:1, h: 64, w: 64};
+                let data = {column:1, row:1};
                 grid[i][j] = data;
             } else {
-                let data = {step:2, dir:2, h: 64, w: 64};
+                let data = {column:2, row:2};
                 grid[i][j] = data;
             }
 		}
@@ -56,25 +65,29 @@ function rewriteMap(grid){
     return dungeon;
 }
 
+pathToMap(grid, pathList);
+generateRooms(grid, pathList, MAX_ROOMS, ROOM_SIZE_RANGE);
+generateExit(grid, pathList);
+let dungeon = rewriteMap(grid);  
+
+
 export const Dungeon = () => {
+    
+    const drawDungeon = (context) => {
+        dungeon.map(( tile, index1 ) => 
+            tile.map(( data, index2 ) => 
+                context.drawImage (dungeonImage, 
+                    data.column*tileSize, data.row*tileSize, 
+                    tileSize, tileSize, 
+                    index2*tileSize, index1*tileSize, 
+                    scaleSize, scaleSize
+                )       
+            )
+        )
+    }
 
-    pathToMap(grid, pathList);
-    generateRooms(grid, pathList, MAX_ROOMS, ROOM_SIZE_RANGE);
-    generateExit(grid, pathList);
-    let dungeon = rewriteMap(grid);
 
-    return (
-        <div >
-            {
-                dungeon.map(( tile, index1 ) => tile.map(( data, index2 ) => 
-                        <Sprite 
-                        image={MapSprite} 
-                        position = {{x:(index2*64), y:(index1*64)}}
-                        data={data}
-                        />)
-                        )
-              
-            }
-        </div>
-    )
+    return  {drawDungeon}
+    
 }
+export default Dungeon;

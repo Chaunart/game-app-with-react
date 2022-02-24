@@ -1,125 +1,68 @@
-import React, { useRef, useState } from 'react';
-import useAnimation from './useAnimation';
 import HeroSprite from './hero.png';
 import State from './State.js';
-import {usePressKey} from './usePressKey.js'
 
-
-const gamewidth = 640;
-const gameheight = 640;
 
 const playerImage = new Image();
 playerImage.src = HeroSprite;
 
 const spriteSize = 85;
-const scaleSize = spriteSize*3;
+const scaleSize = spriteSize*1;
 
-
+const frames = 4;  
+const staggerFrame = 10;
 
 export const Player = () => {
         
-    const {currentState, positionX, positionY, currentAnimationState} = State();
+    const {currentState, positionX, positionY, changeState, currentAnimationState} = State();
 
    
-    const draw = (ctx, frameCount, currentState, positionX, positionY) => {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-    ctx.drawImage (playerImage, 
-        frameCount, currentState, 
-        spriteSize, spriteSize, 
-        positionX, positionY, 
-        scaleSize, scaleSize)
+    const drawHero = (context, gameFrame,) => {
+
+        let frameCount = 0;
+
+        switch(currentAnimationState){
+            case 1:
+                frameCount = Math.floor(gameFrame/staggerFrame) % frames;
+                break;
+            case 2:
+                frameCount = Math.floor(gameFrame/staggerFrame) % frames;
+                if (gameFrame === 39 ) {
+                    switch (currentState){
+                        case 8:
+                            changeState(0);
+                            break;
+                        case 9:
+                            changeState(1);
+                            break;
+                        case 10:
+                            changeState(2);
+                            break;
+                        case 11:
+                            changeState(3);
+                            break;
+                         default:
+                            break;
+                    }
+                }; 
+                break;
+            default:
+                frameCount = Math.floor(gameFrame/staggerFrame) % frames;
+                break;
+        }
+
+
+        
+        context.drawImage (playerImage, 
+            frameCount*spriteSize, currentState*spriteSize, 
+            spriteSize, spriteSize, 
+            positionX, positionY, 
+            scaleSize, scaleSize
+        )
     }
 
-    const canvasRef = useRef(null)
 
-    useAnimation(draw, spriteSize, currentState, canvasRef, positionX, positionY, currentAnimationState);
-
-    return  <canvas style = {{ 
-                    border: '1px solid #000000',
-                    backgroundColor: '#000000',
-                    }}
-                    width = {gamewidth} 
-                    height ={gameheight}
-                    ref = {canvasRef} 
-            />
+    return  {drawHero}
     
 }
 export default Player;
 
-
-
-
-/*
-const states = [
-    { name: 'down_idle', frames: 1, },
-    { name: 'up_idle', frames: 1, },
-    { name: 'left_idle', frames: 1, },
-    { name: 'rechts_idle', frames: 1,},
-    { name: 'down_walk', frames: 4, },
-    { name: 'up_walk', frames: 4, },
-    { name: 'left_walk', frames: 4, },
-    { name: 'right_walk', frames: 4, },
-    { name: 'down_attack', frames: 4, },
-    { name: 'up_attack', frames: 4, },
-    { name: 'left_attack', frames: 4, },
-    { name: 'right_attack', frames: 4, },
-    ];
-*/
-  //const input = new InputHandler();
-    
-    //const input = Input();
-    //const [direction, setDirection] = useState(checkDirection(currentState));
-
-
-
-
-
-    //const [currentState, setCurrentState] = useState(State);
-    //const currentState = {name: 'down', frames: 4};
-
-    //const [direction, setDirection] = useState(states.indexOf(currentState));
-
-    //console.log(input.lastKey);
-
-    /*
-    usePressKey((e) => {
-        const dir = e.key.replace('Arrow', 'press').toLowerCase();
-        console.dir(dir);
-
-        if (dir === 'pressdown') changeState(4); 
-        else if (dir === 'pressup') changeState(5);
-        else if (dir === 'pressleft') changeState(6);
-        else if (dir === 'pressright') changeState(7);
-
-        setDirection(checkDirection(currentState));
-        
-        e.preventDefault();
-    });
-
-    useReleaseKey((e) => {
-        const dir = e.key.replace('Arrow', 'release').toLowerCase();
-        console.dir(dir);
-        if (dir === 'releasedown') changeState(0);
-        else if (dir === 'releaseup') changeState(1);
-        else if (dir === 'releaseleft') changeState(2);
-        else if (dir === 'releaseright') changeState(3);
-
-        setDirection(checkDirection(currentState));
-
-        e.preventDefault();
-
-    });
-
-    useClick((e) => {
-        const click = 'click';
-        console.dir(click);
-        if (checkState(0) || checkState(4)) changeState(8);
-        else if (checkState(1) || checkState(5)) changeState(9);
-        else if (checkState(2) || checkState(6)) changeState(10);
-        else if (checkState(3) || checkState(7)) changeState(11);
-
-        setDirection(checkDirection(currentState));
-
-        e.preventDefault();
-    });
-*/
