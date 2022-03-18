@@ -44,18 +44,6 @@ export const Hero = () => {
       e.preventDefault();
     })
 
-    useReleaseKey((e) => {
-      const dir = e.key.replace('Arrow', 'release').toLowerCase();
-        console.dir(dir);
-      e.preventDefault();
-      })
-
-    useClick((e) => {
-      const dir = 'click';
-        console.dir(dir);
-      e.preventDefault();
-      })
-
     return <Sprite 
                 image={HeroSprite} 
                 position={position} 

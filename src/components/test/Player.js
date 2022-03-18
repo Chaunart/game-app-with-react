@@ -5,11 +5,13 @@ import State from './State.js';
 const playerImage = new Image();
 playerImage.src = HeroSprite;
 
-const spriteSize = 85;
+export const spriteSize = 85;
 const scaleSize = spriteSize*1;
 
 const frames = 4;  
 const staggerFrame = 10;
+
+
 
 export const Player = () => {
         
@@ -21,6 +23,9 @@ export const Player = () => {
         let frameCount = 0;
 
         switch(currentAnimationState){
+            case 0:
+                frameCount = Math.floor(gameFrame/staggerFrame) % frames;
+                break;
             case 1:
                 frameCount = Math.floor(gameFrame/staggerFrame) % frames;
                 break;
@@ -50,8 +55,8 @@ export const Player = () => {
                 break;
         }
 
-
-        
+        context.strokeStyle = 'blue';
+        context.strokeRect(positionX+29, positionY + 13, 27, 40);
         context.drawImage (playerImage, 
             frameCount*spriteSize, currentState*spriteSize, 
             spriteSize, spriteSize, 

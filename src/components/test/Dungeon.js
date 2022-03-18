@@ -8,18 +8,15 @@ dungeonImage.src = DungeonSprite;
 const tileSize = 64;
 const scaleSize = tileSize*1;
 
-const GRID_HEIGHT = 13;
-const GRID_WIDTH = 13;
+export const GRID_HEIGHT = 13;
+export const GRID_WIDTH = 13;
 const MAX_ROOMS = 2;
 const ROOM_SIZE_RANGE = {min:2, max:3};
 const PATH_RANGE = 20;
-let grid = createMap();
+export let grid = createMap();
 
-const gamewidth = GRID_HEIGHT*tileSize;
-const gameheight = GRID_WIDTH*tileSize;
-
-
-
+export const gamewidth = GRID_HEIGHT*tileSize;
+export const gameheight = GRID_WIDTH*tileSize;
 export let pathList = createPath( GRID_HEIGHT, GRID_WIDTH, PATH_RANGE, ROOM_SIZE_RANGE.max);
 
 
@@ -47,21 +44,22 @@ function generateExit(grid, pathList){
 }
 
 function rewriteMap(grid){
+    let dungeon = grid;
     for (let i = 0; i < GRID_HEIGHT; i++) {
 		for (let j = 0; j < GRID_WIDTH; j++) {
-            if (grid[i][j] === 0){
-                let data = {column:1, row:2};
-                grid[i][j] = data;
-            } else if (grid[i][j] === 1){
-                let data = {column:1, row:1};
-                grid[i][j] = data;
+            if (dungeon[i][j] === 0){
+                let data = {column:1, row:2}; //lawn
+                dungeon[i][j] = data;
+            } else if (dungeon[i][j] === 1){
+                let data = {column:1, row:1}; //floor
+                dungeon[i][j] = data;
             } else {
-                let data = {column:2, row:2};
-                grid[i][j] = data;
+                let data = {column:2, row:2}; // exit
+                dungeon[i][j] = data;
             }
 		}
 	}
-    let dungeon = grid;
+    
     return dungeon;
 }
 
@@ -81,13 +79,13 @@ export const Dungeon = () => {
                     tileSize, tileSize, 
                     index2*tileSize, index1*tileSize, 
                     scaleSize, scaleSize
-                )       
+                ) 
             )
         )
     }
 
 
-    return  {drawDungeon}
+    return  {drawDungeon, gameheight, gamewidth}
     
 }
 export default Dungeon;
