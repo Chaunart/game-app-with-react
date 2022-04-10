@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import {usePressKey, useReleaseKey, useClick} from './usePressKey';
 import Movement from './Movement';
+import {newDungeon} from './Dungeon';
+import Collision from './Collision';
 
 const states = {
     DOWN_IDLE: 0,
@@ -23,11 +25,12 @@ export const State = () => {
 
     const [currentState, setCurrentState] = useState(states.DOWN_IDLE);
     const [currentAnimationState, setCurrentAnimationState] = useState(animationStates.IDLE);
-    const {walk, positionX, positionY} = Movement();
+    const {walk, positionX, positionY, changeStart} = Movement();
+    const {exitVec, playerVec} = Collision(positionX, positionY);
 
     usePressKey((e) => {
         const dir = e.key.replace('Arrow', 'press').toLowerCase();
-        console.dir(dir);
+        //console.dir(dir);
         if (dir ==='pressdown'){ 
             if (currentState !== states.DOWN_WALK) setCurrentState(states.DOWN_WALK);
         }
@@ -47,7 +50,7 @@ export const State = () => {
 
     useReleaseKey((e) => {
         const dir = e.key.replace('Arrow', 'release').toLowerCase();
-        console.dir(dir);
+        //console.dir(dir);
         if (dir ==='releasedown') setCurrentState(states.DOWN_IDLE);
         else if (dir ==='releaseup') setCurrentState(states.UP_IDLE);
         else if (dir ==='releaseleft') setCurrentState(states.LEFT_IDLE);
@@ -57,8 +60,8 @@ export const State = () => {
     });
 
     useClick((e) => {
-        const click = 'click';
-        console.dir(click);
+        //const click = 'click';
+        //console.dir(click);
         if (currentState === states.DOWN_WALK || currentState === states.DOWN_IDLE) {
             setCurrentState(states.DOWN_ATTACK)
         }
@@ -68,6 +71,17 @@ export const State = () => {
             setCurrentState(states.LEFT_ATTACK)
         }else if (currentState === states.RIGHT_WALK || currentState === states.RIGHT_IDLE) {
             setCurrentState(states.RIGHT_ATTACK)
+        }
+
+        if (exitVec.x > playerVec.x + playerVec.width ||
+            exitVec.x + exitVec.width < playerVec.x ||
+            exitVec.y > playerVec.y + playerVec.height ||
+            exitVec.y + exitVec.height < playerVec.y) {
+                //'no exit'
+        } else {
+            //'exit'
+            newDungeon();
+            changeStart();
         }
         setCurrentAnimationState(animationStates.ATTACK);
         e.preventDefault();

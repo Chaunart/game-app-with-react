@@ -3,6 +3,7 @@ import useAnimation from './useAnimation';
 //import useMapping from './useMapping';
 import Player from './Player';
 import Dungeon from './Dungeon';
+import Collision from './Collision';
 
 
 
@@ -10,11 +11,12 @@ import Dungeon from './Dungeon';
 export const Game = () => {
 
     const {drawDungeon, gameheight, gamewidth} = Dungeon();   
-    const {drawHero} = Player();
+    const {drawHero, positionX, positionY} = Player();
+    const {drawCollisionExit, drawCollisionPlayer, drawCollisionFloor} = Collision(positionX, positionY);
 
     const canvasRef = useRef(null);
 
-    useAnimation(drawHero,  drawDungeon, canvasRef);
+    useAnimation(drawHero, drawDungeon, drawCollisionExit, drawCollisionPlayer,  drawCollisionFloor, canvasRef);
 
 
 

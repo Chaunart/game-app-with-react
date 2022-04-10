@@ -55,8 +55,8 @@ export const Player = () => {
                 break;
         }
 
-        context.strokeStyle = 'blue';
-        context.strokeRect(positionX+29, positionY + 13, 27, 40);
+        //context.strokeStyle = 'blue';
+        //context.strokeRect(positionX+29, positionY + 13, 27, 40);
         context.drawImage (playerImage, 
             frameCount*spriteSize, currentState*spriteSize, 
             spriteSize, spriteSize, 
@@ -66,7 +66,7 @@ export const Player = () => {
     }
 
 
-    return  {drawHero}
+    return  {drawHero, positionX, positionY}
     
 }
 export default Player;

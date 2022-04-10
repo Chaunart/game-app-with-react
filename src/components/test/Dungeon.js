@@ -5,7 +5,7 @@ import { generateRooms } from './Room.js';
 const dungeonImage = new Image();
 dungeonImage.src = DungeonSprite;
 
-const tileSize = 64;
+export const tileSize = 64;
 const scaleSize = tileSize*1;
 
 export const GRID_HEIGHT = 13;
@@ -18,6 +18,7 @@ export let grid = createMap();
 export const gamewidth = GRID_HEIGHT*tileSize;
 export const gameheight = GRID_WIDTH*tileSize;
 export let pathList = createPath( GRID_HEIGHT, GRID_WIDTH, PATH_RANGE, ROOM_SIZE_RANGE.max);
+export let exit;
 
 
 function createMap(){
@@ -39,18 +40,18 @@ function pathToMap(grid, pathList){
 
 function generateExit(grid, pathList){
     let position = Math.floor(Math.random() * (pathList.length));
-    let roomStart = pathList[position];
-    grid[roomStart.y][roomStart.x] = 2;
+    exit = pathList[position];
+    grid[exit.y][exit.x] = 2;
 }
 
 function rewriteMap(grid){
-    let dungeon = grid;
+    let dungeon = createMap();
     for (let i = 0; i < GRID_HEIGHT; i++) {
 		for (let j = 0; j < GRID_WIDTH; j++) {
-            if (dungeon[i][j] === 0){
+            if (grid[i][j] === 0){
                 let data = {column:1, row:2}; //lawn
                 dungeon[i][j] = data;
-            } else if (dungeon[i][j] === 1){
+            } else if (grid[i][j] === 1){
                 let data = {column:1, row:1}; //floor
                 dungeon[i][j] = data;
             } else {
@@ -66,8 +67,18 @@ function rewriteMap(grid){
 pathToMap(grid, pathList);
 generateRooms(grid, pathList, MAX_ROOMS, ROOM_SIZE_RANGE);
 generateExit(grid, pathList);
-let dungeon = rewriteMap(grid);  
+let dungeon = rewriteMap(grid);
 
+
+export function newDungeon(){
+    grid = createMap();
+    pathList = createPath( GRID_HEIGHT, GRID_WIDTH, PATH_RANGE, ROOM_SIZE_RANGE.max);
+    pathToMap(grid, pathList);
+    generateRooms(grid, pathList, MAX_ROOMS, ROOM_SIZE_RANGE);
+    generateExit(grid, pathList);
+    dungeon = rewriteMap(grid);
+    return
+}
 
 export const Dungeon = () => {
     

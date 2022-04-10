@@ -1,7 +1,9 @@
 import {useEffect} from 'react';
 
 
-export default function useAnimation (drawHero, drawDungeon,
+
+export default function useAnimation (drawHero, drawDungeon, drawCollisionExit, 
+                                      drawCollisionPlayer, drawCollisionFloor,
                                       canvasRef,
                                       ) {
 
@@ -10,8 +12,6 @@ export default function useAnimation (drawHero, drawDungeon,
 
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
-        //
-
 
         let animationFrameId;
         let gameFrame = 0;
@@ -20,6 +20,10 @@ export default function useAnimation (drawHero, drawDungeon,
             context.clearRect(0, 0, window.innerWidth, window.innerHeight)
             drawDungeon(context);
             drawHero(context, gameFrame);
+            
+            drawCollisionFloor(context);
+            drawCollisionExit(context);
+            drawCollisionPlayer(context, gameFrame);
 
             gameFrame++;
             
