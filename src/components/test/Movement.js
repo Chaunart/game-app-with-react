@@ -52,19 +52,19 @@ export default function Movement() {
 
 function walk(state) {
         if (state === states.DOWN_WALK){
-            if(checkCollision() === "collide") setY((prev) => (prev - (stepSize+2)));
+            if(checkCollision(1)) setY((prev) => (prev - (stepSize+2)));
             else setY((prev) => (prev + stepSize));
         }
         if(state === states.UP_WALK){
-            if (checkCollision() === "collide") setY((prev) => (prev + (stepSize+2)));
+            if (checkCollision(2)) setY((prev) => (prev + (stepSize+2)));
             else setY((prev) => (prev - stepSize));
         }
         if(state === states.LEFT_WALK){
-            if(checkCollision() === "collide") setX((prev) => (prev + (stepSize+2)));
+            if(checkCollision(3)) setX((prev) => (prev + (stepSize+2)));
             else setX((prev) => (prev - stepSize));
         }
         if(state === states.RIGHT_WALK){
-            if(checkCollision() === "collide") setX((prev) => (prev - (stepSize+2)));
+            if(checkCollision(4)) setX((prev) => (prev - (stepSize+2)));
             else setX((prev) => (prev + stepSize));
         }
     
