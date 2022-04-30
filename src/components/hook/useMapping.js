@@ -5,7 +5,6 @@ export default function useMapping (drawDungeon,
                                       canvasRef,
                                       ) {
 
-
     useEffect(() => {
 
         const canvas = canvasRef.current;

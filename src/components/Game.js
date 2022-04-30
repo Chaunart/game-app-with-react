@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import useAnimation from './useAnimation';
+import useAnimation from './hook/useAnimation';
 //import useMapping from './useMapping';
-import Player from './Player';
-import Dungeon from './Dungeon';
-import Collision from './Collision';
+import Player from './hero/Player';
+import Dungeon from './dungeon/Dungeon';
+import Collision from './dungeon/Collision';
 
 
 

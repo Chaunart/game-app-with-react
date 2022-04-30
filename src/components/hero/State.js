@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import {usePressKey, useReleaseKey, useClick} from './usePressKey';
+import {usePressKey, useReleaseKey, useClick} from '../hook/usePressKey';
 import Movement from './Movement';
-import {newDungeon} from './Dungeon';
-import Collision from './Collision';
+import {newDungeon} from '../dungeon/Dungeon';
+import Collision from '../dungeon/Collision';
 
 const states = {
     DOWN_IDLE: 0,
@@ -30,7 +30,6 @@ export const State = () => {
 
     usePressKey((e) => {
         const dir = e.key.replace('Arrow', 'press').toLowerCase();
-        //console.dir(dir);
         if (dir ==='pressdown'){ 
             if (currentState !== states.DOWN_WALK) setCurrentState(states.DOWN_WALK);
         }
@@ -50,7 +49,6 @@ export const State = () => {
 
     useReleaseKey((e) => {
         const dir = e.key.replace('Arrow', 'release').toLowerCase();
-        //console.dir(dir);
         if (dir ==='releasedown') setCurrentState(states.DOWN_IDLE);
         else if (dir ==='releaseup') setCurrentState(states.UP_IDLE);
         else if (dir ==='releaseleft') setCurrentState(states.LEFT_IDLE);
@@ -60,8 +58,6 @@ export const State = () => {
     });
 
     useClick((e) => {
-        //const click = 'click';
-        //console.dir(click);
         if (currentState === states.DOWN_WALK || currentState === states.DOWN_IDLE) {
             setCurrentState(states.DOWN_ATTACK)
         }
