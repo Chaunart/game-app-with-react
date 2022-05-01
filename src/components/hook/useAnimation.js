@@ -35,7 +35,7 @@ export default function useAnimation (drawHero, drawDungeon, drawCollisionExit,
 
         return () => {
             window.cancelAnimationFrame(animationFrameId)
-          }
+        }
 
     }, [drawHero, canvasRef,])
 

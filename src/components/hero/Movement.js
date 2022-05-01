@@ -42,17 +42,37 @@ export default function Movement() {
             if(checkCollision(4)) setX((prev) => (prev - stepSize));
             else setX((prev) => (prev + stepSize));
         }
-    
     };
 
+    function correctPosition(direction){
+        switch (direction) {
+            case 1:
+                //downWalk
+                if(checkCollision(1)) setY((prev) => (prev - 1));
+                break;
+            case 2:
+                //upWalk
+                if(checkCollision(2)) setY((prev) => (prev + 1));
+                break;
+            case 3:
+                //leftWalk
+                if(checkCollision(3)) setX((prev) => (prev + 1));
+                break;
+            case 4:
+                //rightWalk
+                if(checkCollision(4)) setX((prev) => (prev - 1));
+                break;
+            default:
+                break;
+        }
 
+    }
 
     function changeStart(){
         let newStart = generateStart(pathList)
         setX((newStart.x*64)-24);
         setY((newStart.y*64)-13);
-    
     }
 
-    return {walk, positionX, positionY, changeStart}
+    return {walk, positionX, positionY, changeStart, correctPosition}
 }

@@ -25,7 +25,7 @@ export const State = () => {
 
     const [currentState, setCurrentState] = useState(states.DOWN_IDLE);
     const [currentAnimationState, setCurrentAnimationState] = useState(animationStates.IDLE);
-    const {walk, positionX, positionY, changeStart} = Movement();
+    const {walk, positionX, positionY, changeStart, correctPosition} = Movement();
     const {exitVec, playerVec} = Collision(positionX, positionY);
 
     usePressKey((e) => {
@@ -42,17 +42,17 @@ export const State = () => {
         else if (dir ==='pressright'){ 
             if (currentState !== states.RIGHT_WALK) setCurrentState(states.RIGHT_WALK);
         }
-        walk(currentState);
         setCurrentAnimationState(animationStates.WALK);
+        walk(currentState);
         e.preventDefault();
     });
 
     useReleaseKey((e) => {
         const dir = e.key.replace('Arrow', 'release').toLowerCase();
-        if (dir ==='releasedown') setCurrentState(states.DOWN_IDLE);
-        else if (dir ==='releaseup') setCurrentState(states.UP_IDLE);
-        else if (dir ==='releaseleft') setCurrentState(states.LEFT_IDLE);
-        else if (dir ==='releaseright') setCurrentState(states.RIGHT_IDLE);
+        if (dir ==='releasedown') {setCurrentState(states.DOWN_IDLE); correctPosition(1);}
+        else if (dir ==='releaseup') {setCurrentState(states.UP_IDLE); correctPosition(2);}
+        else if (dir ==='releaseleft') {setCurrentState(states.LEFT_IDLE); correctPosition(3);}
+        else if (dir ==='releaseright') {setCurrentState(states.RIGHT_IDLE); correctPosition(4);}
         setCurrentAnimationState(animationStates.IDLE);
         e.preventDefault();
     });
