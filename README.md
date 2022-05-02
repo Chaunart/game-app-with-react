@@ -1,7 +1,7 @@
 # game-app
  ReactJs Game
 
-Dies ist ein Game-Projekt, welches ich bereits in der Unity Engine angefangen habe. Um ReactJs zu lernen, habe ich teile davon entsprechen umgewandelt. 
+Dies ist ein Game-Projekt, welches ich bereits in der Unity Engine angefangen habe. Um ReactJs zu lernen, habe ich Teile davon entsprechen umgewandelt. 
 
 Es ist ein simpler Dungeon-Crawler ohne Gegner. Die einzige Aufgabe ist es mit den Pfeiltasten die Figur zum Portal zu bewegen und durch MausClick
 in den nächste Ebene zu kommen. Es gibt kein Ende und die Ebenen werden prozedural generiert. 
