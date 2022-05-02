@@ -8,7 +8,7 @@ in den nächste Ebene zu kommen. Es gibt kein Ende und die Ebenen werden prozedu
 Die Spritesheets wurden ebenfalls von mir erstellt.
 
 
-Im test-and-failed-attempts Ordner befinden sich vorherige Versionen, die verworfen wurden. ich habe in drin gelassen, weil es einblicke in meinen Denkprozess gibt.
+Im test-and-failed-attempts Ordner befinden sich vorherige Versionen, die verworfen wurden. Ich habe sie drin gelassen, weil es Einblicke in meinen Denkprozess gibt.
 
 
 Verwendete Tutorials 
